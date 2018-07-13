@@ -1,1 +1,32 @@
-import React, { Component } from 'react';import './Home.styl';import { Table, Modal, Button, Input, DatePicker } from 'antd';const { TextArea } = Input;class OpenForm extends React.Component {    state = { visible: false }    showModal = () => {        this.setState({            visible: true,        });    }    handleOk = (e) => {        console.log(e);        this.setState({            visible: false,        });    }    handleCancel = (e) => {        console.log(e);        this.setState({            visible: false,        });    }    render() {        return (            <div>                <Button type="primary" onClick={this.showModal}>Fill Form</Button>                <Modal                    title="New plan"                    visible={this.state.visible}                    onOk={this.handleOk}                    onCancel={this.handleCancel}                >                    <p><DatePicker /></p>                    <p>                        Daily Plan                        <TextArea rows={4} />                    </p>                    <p>                        Future Plan                        <TextArea rows={4} />                    </p>                </Modal>            </div>        );    }}const columns = [{    title: 'Date',    dataIndex: 'date',}, {    title: 'Daily plan',    dataIndex: 'dailyPlan',}, {    title: 'Future plan',    dataIndex: 'futurePlan',}, {    title: 'Username',    dataIndex: 'username',}];const data = [];for (let i = 0; i < 46; i++) {    data.push({        key: i,        date: '12.07.2018',        dailyPlan: 'some text',        futurePlan: 'also some text',        username: 'lnlhntr',    });}class App extends React.Component {    state = {        selectedRowKeys: [],    };    onSelectChange = (selectedRowKeys) => {        console.log('selectedRowKeys changed: ', selectedRowKeys);        this.setState({ selectedRowKeys });    }    render() {        const { selectedRowKeys } = this.state;        const rowSelection = {            selectedRowKeys,            onChange: this.onSelectChange,            hideDefaultSelections: true,            selections: [{                key: 'all-data',                text: 'Select All Data',                onSelect: () => {                    this.setState({                        selectedRowKeys: [...Array(46).keys()], // 0...45                    });                },            }, {                key: 'odd',                text: 'Select Odd Row',                onSelect: (changableRowKeys) => {                    let newSelectedRowKeys = [];                    newSelectedRowKeys = changableRowKeys.filter((key, index) => {                        if (index % 2 !== 0) {                            return false;                        }                        return true;                    });                    this.setState({ selectedRowKeys: newSelectedRowKeys });                },            }, {                key: 'even',                text: 'Select Even Row',                onSelect: (changableRowKeys) => {                    let newSelectedRowKeys = [];                    newSelectedRowKeys = changableRowKeys.filter((key, index) => {                        if (index % 2 !== 0) {                            return true;                        }                        return false;                    });                    this.setState({ selectedRowKeys: newSelectedRowKeys });                },            }],            onSelection: this.onSelection,        };        return (            <Table rowSelection={rowSelection} columns={columns} dataSource={data} />        );    }}class Home extends Component {  render () {    return (      <div id='home'>          <OpenForm />          <App />      </div>    )  }}export default Home
+import React, { Component } from 'react';
+import './Home.styl';
+import { Table, Modal, Button, Input, DatePicker } from 'antd';
+import AddButton from './components/AddButton.jsx';
+import { data, columns } from './components/data.js';
+
+export default class Home extends Component {
+    state = {
+        data
+    }
+    handleCreate = (elem) => {
+        this.setState({
+            data: [
+                ...this.state.data,
+                {
+                    key: this.state.data.length + 1,
+                    ...elem
+                }
+            ] 
+        });
+    }
+    render () {
+        console.log(this.state.data)
+        return (
+            <div>
+                <Table columns={columns} dataSource={this.state.data} />
+                <AddButton onClick={this.handleCreate} />
+            </div>
+        )
+    }
+}
+
