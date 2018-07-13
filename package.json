@@ -10,6 +10,7 @@
     "node-server": "nodemon ./server/index.js --exec babel-node --presets env,stage-0"
   },
   "devDependencies": {
+    "antd": "^3.6.6",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.1.1",
