@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input, DatePicker } from 'antd';
+import ProgressBar from './ProgressBar.jsx';
 
 const FormItem = Form.Item;
 
@@ -8,7 +9,7 @@ const AddForm = Form.create()(
   class extends Component {
     render() {
       const { visible, onCancel, onCreate, form } = this.props;
-      const { getFieldDecorator } = form;
+      const { getFieldDecorator, setFieldsValue, getFieldValue } = form;
       return (
         <Modal
           style={{top: 0}}
@@ -25,6 +26,15 @@ const AddForm = Form.create()(
               })(
                 <DatePicker />
               )}
+            </FormItem>
+            <FormItem label="ProgressBar">
+            {getFieldDecorator('progressBar'),
+              (<ProgressBar
+                value={getFieldValue('progressBar')}
+                onChange={progressBar => setFieldsValue({ progressBar })}
+                />)
+            }
+              
             </FormItem>
             <FormItem label="Username">
               {getFieldDecorator('username', {
