@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input, DatePicker } from 'antd';
-import ProgressBar from './ProgressBar.jsx';
+import ProgressBar from './ProgressBar/ProgressBar.jsx';
 
 const FormItem = Form.Item;
 

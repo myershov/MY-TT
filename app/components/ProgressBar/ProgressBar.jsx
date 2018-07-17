@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { Progress, Button } from "antd";
-import "./progressBarStyles.css";
+import "./ProgressBar.css";
 
 const ButtonGroup = Button.Group;
 
 class ProgressBar extends Component {
   static defaultProps = {
-    value: 10
+    value: 50
   }
   increase = () => {
     const { onChange, value } = this.props
@@ -30,10 +30,10 @@ class ProgressBar extends Component {
   render() {
     const { value } = this.props
     return (
-      <div id="main">
+      <div>
           <p id="dev">Dev {100 - value}%</p>
           <p id="men">Management {value}%</p>
-          <Progress id="prg" percent={value} status={"normal"} format={() => ''} />
+          <Progress id="prg" successPercent={value} percent={100} status={"normal"} format={() => ''} />
         <ButtonGroup id="progress-buttons">
           <Button onClick={this.decline} icon="minus" />
           <Button onClick={this.increase} icon="plus" />
