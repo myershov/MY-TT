@@ -3,6 +3,7 @@ import { Table } from 'antd';
 import AddButton from './AddButton.jsx';
 import { data, columns } from './data.js';
 import Selected from './select/select.jsx';
+
 export default class DataTable extends Component {
 	state = {
 		data

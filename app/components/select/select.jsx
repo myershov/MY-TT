@@ -1,41 +1,63 @@
 import React, { Component } from 'react';
-import { Select } from 'antd';
+import CreatableSelect from 'react-select/lib/Creatable';
 
-const { Option, OptGroup} = Select;
+type State = {
+  options: [{ [string]: string }],
+  value: string | void,
+};
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-function click(value) {
-    stopPropagation(Select);
-    startPropagation(Input);
-    //console.log('handleChildClick');
-  }
+const createOption = (label: string) => ({
+  label,
+  value: label.toLowerCase().replace(/\W/g, ''),
+});
 
-class Selected extends Component {
-  
+const defaultOptions = [
+  createOption('Alex-135-135'),
+  createOption('Savchek'),
+  createOption('lnlhntr'),
+];
 
-
-  // click = () => {
-  //  Select.stopPropagation();
-  //  Input.startPropagation();
- // };
+export default class Selected extends Component<*, State> {
+  state = {
+    isLoading: false,
+    options: defaultOptions,
+    value: undefined,
+  }; 
+  handleChange = (newValue: any, actionMeta: any) => {
+    console.group('Value Changed');
+    console.log(newValue);
+    console.log(`action: ${actionMeta.action}`);
+    console.groupEnd();
+    this.setState({ value: newValue });
+  };
+  handleCreate = (inputValue: any) => {
+    this.setState({ isLoading: true });
+    console.group('Option created');
+    console.log('Wait a moment...');
+    setTimeout(() => {
+      const { options } = this.state;
+      const newOption = createOption(inputValue);
+      console.log(newOption);
+      console.groupEnd();
+      this.setState({
+        isLoading: false,
+        options: [...options, newOption],
+        value: newOption,
+      });
+    }, 1000);
+  };
   render() {
+    const { isLoading, options, value } = this.state;
     return (
-      <div>
-        <Select defaultValue="" style={{ width: 320 }} onChange={handleChange}>
-          <OptGroup label="Name">
-            <Option value="Alex-135-135">Alex-135-135</Option>
-            <Option value="Savchek">Savchek</Option>
-            <Option value="lnlhntr">lnlhntr</Option>
-          </OptGroup>
-          <OptGroup label="Input">
-            <Option value="Input" onClick={click}>Input</Option>
-          </OptGroup>
-        </Select> 
-      </div>
+      <CreatableSelect
+        isClearable
+        isDisabled={isLoading}
+        isLoading={isLoading}
+        onChange={this.handleChange}
+        onCreateOption={this.handleCreate}
+        options={options}
+        value={value}
+      />
     );
   }
 }
-export default Selected;
-
