@@ -1,5 +1,1 @@
-import Home from './Home.jsx';
-
-export {
-  Home,
-}
+export { default as DataTable } from './DataTable/index.jsx'

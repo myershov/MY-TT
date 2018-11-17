@@ -1,38 +1,28 @@
-import React, { Component } from 'react';
-import { Button, Progress } from 'antd';
-import AddForm from './AddForm.jsx';
+import React, { Component } from 'react'
+import { Button, Progress } from 'antd'
+import AddForm from './AddForm.jsx'
 
 class AddButton extends Component {
    state = {
     visible: false,
   }
 
-  showModal = () => {
-    this.setState({ visible: true });
-  }
-
-  handleCancel = () => {
-    this.setState({ visible: false });
-  }
-
   handleCreate = () => {
     const form = this.formRef.props.form;
     form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
+      if (err) return
 
       console.log('Received values of form: ', values);
       values.date = values.date._d.toString().substring(4,15);
-      if (values.progressBar === undefined){
+      if (values.progressBar === undefined) {
             values.progressBar = 
             <div>
               <p id="dev">{50}%</p>
               <p id="men">{50}%</p>
               <Progress id="prg" successPercent={50} percent={100} status={"normal"} format={() => ''} />
             </div>
-          }
-          else{
+          } else
+           {
             values.progressBar = 
             <div>
               <p id="dev">{100 - values.progressBar}%</p>
@@ -53,15 +43,15 @@ class AddButton extends Component {
   render() {
     return (
       <div>
-        <Button style={{top: -48}} type="primary" onClick={this.showModal}>Add</Button>
+        <Button style={{top: -48}} type="primary" onClick={() => this.setState({ visible: true })}>Add</Button>
         <AddForm
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
-          onCancel={this.handleCancel}
+          onCancel={() => this.setState({ visible: false })}
           onCreate={this.handleCreate}
         />
       </div>
-    );
+    )
   }
 }
 
