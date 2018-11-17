@@ -1,9 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types'
-import { Progress, Button } from "antd";
-import "./ProgressBar.css";
-
-const ButtonGroup = Button.Group;
+import React, { Component } from 'react'
+import { Progress, Button } from "antd"
+import "./ProgressBar.css"
 
 class ProgressBar extends Component {
   static defaultProps = {
@@ -16,16 +13,13 @@ class ProgressBar extends Component {
       percent = 100;
     }
     onChange(percent)
-  };
+  }
 
   decline = () => {
-    const { onChange, value } = this.props
-    let percent = value - 10;
-    if (percent < 0) {
-      percent = 0;
-    }
-    onChange(percent)
-  };
+    let percent = this.props.value - 10;
+    if (percent < 0)  percent = 0
+    this.props.onChange(percent)
+  }
 
   render() {
     const { value } = this.props
@@ -34,12 +28,12 @@ class ProgressBar extends Component {
           <p id="dev">Dev {100 - value}%</p>
           <p id="men">Management {value}%</p>
           <Progress id="prg" successPercent={value} percent={100} status={"normal"} format={() => ''} />
-        <ButtonGroup id="progress-buttons">
+        <Button.Group id="progress-buttons">
           <Button onClick={this.decline} icon="minus" />
           <Button onClick={this.increase} icon="plus" />
-        </ButtonGroup>
+        </Button.Group>
       </div>
-    );
+    )
   }
 }
 
