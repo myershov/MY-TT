@@ -1,3 +1,3 @@
-import Tasks from "./gameboard/reducer.js";
-import { combineReducers } from "redux";
-export default combineReducers({ Tasks });
+import tasks from './gameboard/reducer.js'
+import { combineReducers } from 'redux'
+export default combineReducers({ tasks })

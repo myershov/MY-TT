@@ -1,76 +1,59 @@
-import React, { Component } from "react";
-import { Table } from "antd";
-import AddButton from "./AddButton.jsx";
-import { data, columns } from "./data.js";
-import { addTaskToFirebase, removeTaskFromFirebase } from "../../firebase";
+import React, { Component } from "react"
+import { addTaskToFirebase } from "../../firebase"
+import AddButton from "./AddButton.jsx"
+import { Table } from "antd"
 import {
   getTasksThunk,
   watchTaskAddedEvent,
   watchTaskRemovedEvent
-} from "../../store/gameboard/actions";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import uuid from "uuid/v4";
+} from "../../store/gameboard/actions"
+import { connect } from "react-redux"
+import { withRouter } from "react-router-dom"
+
 class DataTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: []
-    };
+  componentDidMount() {
+    this.props.dispatch(getTasksThunk())
+    // TODO: Recheck below
+    watchTaskRemovedEvent(this.props.dispatch)
+    watchTaskAddedEvent(this.props.dispatch)
+    // TODO: Add auth
+    localStorage.setItem("myName", "SDS")
   }
-  componentWillMount() {
-    localStorage.setItem("myName", "SDS");
-  }
-  handleCreate = elem => {
-    this.setState(
-      {
-        data: [
-          ...this.state.data,
-          {
-            key: uuid(),
-            ...elem
-            // key: this.state.data.length + 1,
-            // ...elem
-          }
-        ]
-      },
 
-      () => addTaskToFirebase(this.state.data.slice(-1)[0])
-    );
-  };
-
-  renderOfTasks = () => {
-    if (this.props.tasks[0] && this.props.tasks[0].id) {
-      let buff = this.props.tasks.map(item => item.task);
-      return buff;
+  columns = [
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date"
+    },
+    {
+      title: "Username",
+      dataIndex: "username",
+      key: "username"
+    },
+    {
+      title: "Daily plan",
+      dataIndex: "dailyPlan",
+      key: "dailyPlan"
+    },
+    {
+      title: "Future plan",
+      dataIndex: "futurePlan",
+      key: "futurePlan"
     }
-  };
+  ]
 
   render() {
-    // console.log('store', this.props.tasks)
-    console.log("data", this.state.data);
+    // TODO: Add edit/delete of plans
     return (
       <div>
-        <Table columns={columns} dataSource={this.renderOfTasks()} />
-        <AddButton onClick={this.handleCreate} />
+        <Table columns={this.columns} dataSource={(this.props.tasks || []).map(i => i.task)} />
+        <AddButton onClick={addTaskToFirebase} />
       </div>
-    );
+    )
   }
 }
 
-const mapState = state => ({
-  tasks: state.Tasks
-});
+const mapState = state => ({ tasks: state.tasks })
 
-const mapDispatch = dispatch => {
-  dispatch(getTasksThunk());
-  watchTaskRemovedEvent(dispatch);
-  watchTaskAddedEvent(dispatch);
-};
-
-export default withRouter(
-  connect(
-    mapState,
-    mapDispatch
-  )(DataTable)
-);
+export default withRouter(connect(mapState)(DataTable))
