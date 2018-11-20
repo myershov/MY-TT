@@ -6,7 +6,8 @@
   "license": "ISC",
   "author": "",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline --module-bind 'css=style!css'",
+    "pre-commit": "lint-staged",
+	 "start": "webpack-dev-server --hot --inline --module-bind 'css=style!css'",
     "node-server": "nodemon ./server/index.js --exec babel-node --presets env,stage-0"
   },
   "devDependencies": {
@@ -25,12 +26,17 @@
     "eslint": "^3.19.0",
     "eslint-config-standard": "^6.2.1",
     "eslint-config-standard-react": "^4.2.0",
-    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.0.1",
-    "eslint-plugin-standard": "^2.0.1",
+    "eslint-plugin-standard": "^2.3.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
+    "lint-staged": "^8.0.5",
     "moment": "^2.22.2",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.15.2",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -44,7 +50,9 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "firebase": "^5.5.8",
     "npm": "^6.4.1",
+    "react-firebase": "^2.2.8",
     "react-redux": "^4.4.6",
     "react-router": "^4.2.0",
     "react-router-hash-link": "^1.1.0",
@@ -53,7 +61,18 @@
     "redux-define": "^1.1.0",
     "redux-devtools": "^3.4.2",
     "redux-devtools-extension": "^1.0.0",
-    "redux-thunk": "^2.1.0",
-    "seamless-immutable": "^7.0.1"
+    "redux-thunk": "^2.3.0",
+    "seamless-immutable": "^7.0.1",
+    "uuid": "^3.3.2",
+    "express": "*"
+  },
+  "pre-commit": [
+    "pre-commit"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
