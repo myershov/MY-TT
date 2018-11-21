@@ -4,7 +4,8 @@ import AddButton from './AddButton.jsx'
 import { Button, Table, Divider } from 'antd'
 import { getTasksThunk, watchTaskAddedEvent, watchTaskRemovedEvent } from '../../store/gameboard/actions'
 import { connect } from 'react-redux'
-import AuthModal from '../auth/index'
+
+import Auth from '../auth/auth'
 class DataTable extends Component {
   componentDidMount() {
     this.props.dispatch(getTasksThunk())
@@ -57,14 +58,28 @@ class DataTable extends Component {
       ),
     },
   ]
-
+  renderingAuth = () => {
+    let buff = localStorage.getItem('myName')
+    if (buff == null) {
+      return <Auth style={{ marginLeft: 8 }} />
+    }
+  }
+  renderingAdd = () => {
+    let buff = localStorage.getItem('myName')
+    if (buff === null) {
+      return <div style={{ marginLeft: 8 }}>to add task u must login first</div>
+    } else {
+      return <AddButton onClick={addTaskToFirebase} />
+    }
+  }
   render() {
     // TODO: Add edit/delete of plans
     return (
       <div>
-        <AuthModal />
+        {this.renderingAuth()}
+
         <Table columns={this.columns} dataSource={(this.props.tasks || []).map(i => i.task)} />
-        <AddButton onClick={addTaskToFirebase} />
+        {this.renderingAdd()}
       </div>
     )
   }

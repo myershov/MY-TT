@@ -100,38 +100,35 @@ class Auth extends Component {
           </FormItem>
 
           <FormItem>
-            {/* <label>
-            Name:
-            <input name="login" type="text" value={this.state.login} onChange={this.onInputChange} />
-          </label>
-          <div />
-          <label>
-            pass:
-            <input name="pass" type="text" value={this.state.pass} onChange={this.onInputChange} />
-          </label> */}
-            <button
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={hasErrors(getFieldsError())}
               onClick={e => {
                 this.login(e)
               }}
             >
               {' '}
               loggin
-            </button>
-            <button
+            </Button>
+            <Button
+              style={{ marginLeft: 8 }}
+              type="primary"
+              htmlType="submit"
+              disabled={hasErrors(getFieldsError())}
               onClick={() => {
                 this.create()
               }}
             >
               {' '}
               create new
-            </button>
+            </Button>
           </FormItem>
         </Form>
       </div>
     )
   }
 }
-//const WrappedHorizontalLoginForm = Form.create(Auth)
 
 const mapState = state => ({
   tasks: state,
