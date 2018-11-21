@@ -1,3 +1,5 @@
-export const ADD_TASK = "add task";
-export const REMOVE_TASK = "remove task";
-export const GET_TASKS = "get tasks";
+export const ADD_TASK = 'add task'
+export const REMOVE_TASK = 'remove task'
+export const GET_TASKS = 'get tasks'
+export const ADD_USER = 'add user'
+export const GET_USERS = 'get users'

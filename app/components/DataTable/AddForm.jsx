@@ -1,52 +1,46 @@
-import React, { Component } from "react";
-import { Modal, Form, Input, DatePicker } from "antd";
-import ProgressBar from "./ProgressBar/ProgressBar.jsx";
+import { Modal, Form, Input, DatePicker } from 'antd'
+import React, { Component } from 'react'
+import moment from 'moment'
 
 class AddForm extends Component {
+  // TODO: Add radio, switcher and swipe between daily plan
+  // and end of day status incluading totally hours worked
   render() {
     const {
-      visible,
+      form: { getFieldDecorator },
       onCancel,
       onCreate,
-      form: { getFieldDecorator }
-    } = this.props;
+      visible,
+    } = this.props
+
     return (
-      <Modal
-        style={{ top: 0 }}
-        visible={visible}
-        title="Adding"
-        okText="Add"
-        onCancel={onCancel}
-        onOk={onCreate}
-      >
+      <Modal onCancel={onCancel} visible={visible} onOk={onCreate} title="Daily Plan" okText="OK">
         <Form layout="vertical">
-          {/* <Form.Item label="Date">
-            {getFieldDecorator("date", {
-              rules: [{ required: true, message: "Must be filled!" }]
+          <Form.Item label="Date">
+            {getFieldDecorator('date', {
+              rules: [{ required: true, message: 'Must be filled!' }],
+              initialValue: moment(),
             })(<DatePicker />)}
-          </Form.Item> */}
-          {/* <Form.Item label="ProgressBar">
-            {getFieldDecorator('progressBar')(<ProgressBar />)}
-          </Form.Item> */}
-          {/* <Form.Item label="Username">
-            {getFieldDecorator("username", {
-              rules: [{ required: true, message: "Must be filled!" }]
-            })(<Input />)}
-          </Form.Item> */}
+          </Form.Item>
           <Form.Item label="Daily plan">
-            {getFieldDecorator("dailyPlan", {
-              rules: [{ required: true, message: "Must be filled!" }]
+            {getFieldDecorator('dailyPlan', {
+              rules: [{ required: true, message: 'Must be filled!' }],
             })(<Input.TextArea />)}
           </Form.Item>
           <Form.Item label="Future plan">
-            {getFieldDecorator("futurePlan", {
-              initialValue: ""
+            {getFieldDecorator('futurePlan', {
+              initialValue: '',
+            })(<Input.TextArea />)}
+          </Form.Item>
+          <Form.Item label="Notes">
+            {getFieldDecorator('notes', {
+              initialValue: '',
             })(<Input.TextArea />)}
           </Form.Item>
         </Form>
       </Modal>
-    );
+    )
   }
 }
 
-export default Form.create()(AddForm);
+export default Form.create()(AddForm)
