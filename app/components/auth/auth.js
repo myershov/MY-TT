@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { getUsersThunk, watchUserAddedEvent } from '../../store/gameboard/actions'
 import { Form, Icon, Input, Button } from 'antd'
 import { withRouter } from 'react-router-dom'
-import { auth } from 'firebase'
+
 const FormItem = Form.Item
 
 function hasErrors(fieldsError) {

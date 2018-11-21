@@ -104,6 +104,7 @@ class DataTable extends Component {
     }
   }
   render() {
+    console.log(this.props.users)
     console.log(this.props.Row)
     // TODO: Add edit/delete of plans
     return (
