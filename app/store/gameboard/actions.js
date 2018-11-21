@@ -10,6 +10,7 @@ export const addTask = task => ({ type: types.ADD_TASK, task })
 export const removeTask = task => ({ type: types.REMOVE_TASK, task })
 export const addUser = user => ({ type: types.ADD_USER, user })
 export const getUsers = users => ({ type: types.GET_USERS, users })
+export const selectRow = row => ({ type: types.SELECTED_ROW, row })
 /**
  * LISTENERS
  */

@@ -1,22 +1,45 @@
 import React, { Component } from 'react'
-import { addTaskToFirebase } from '../../firebase'
+import { addTaskToFirebase, removeTaskFromFirebase } from '../../firebase'
 import AddButton from './AddButton.jsx'
 import { Button, Table, Divider } from 'antd'
-import { getTasksThunk, watchTaskAddedEvent, watchTaskRemovedEvent } from '../../store/gameboard/actions'
+import {
+  getTasksThunk,
+  watchTaskAddedEvent,
+  watchTaskRemovedEvent,
+  getUsersThunk,
+  selectRow,
+} from '../../store/gameboard/actions'
 import { connect } from 'react-redux'
-
+import { Input, InputNumber, Popconfirm, Form } from 'antd'
 import Auth from '../auth/auth'
+
+const FormItem = Form.Item
+//const EditableContext = React.createContext()
+
+const EditableRow = ({ form, index, ...props }) => (
+  <EditableContext.Provider value={form}>
+    <tr {...props} />
+  </EditableContext.Provider>
+)
+const EditableFormRow = Form.create()(EditableRow)
 class DataTable extends Component {
   componentDidMount() {
     this.props.dispatch(getTasksThunk())
+    this.props.dispatch(getUsersThunk())
     // TODO: Recheck below
     watchTaskRemovedEvent(this.props.dispatch)
     watchTaskAddedEvent(this.props.dispatch)
-    // TODO: Add auth
-    //localStorage.setItem('myName', 'SDS')
   }
-  hi = () => {
-    console.log('hi')
+  getInput = () => {
+    if (this.props.inputType === 'number') {
+      return <InputNumber />
+    }
+    return <Input />
+  }
+  hi = selected => {
+    // debugger
+    // this.props.dispatch(selectRow(selected))
+    alert('not working yet')
   }
   columns = [
     {
@@ -47,32 +70,41 @@ class DataTable extends Component {
     {
       title: 'Action',
       key: 'action',
-      render: text => (
+      render: (text, record) => (
         <span>
-          <a href="javascript:void(0);" onClick={() => this.hi()}>
+          <a href="javascript:void(0);" onClick={() => this.hi(record)}>
             Change
           </a>
-
           <Divider type="vertical" />
+          <a href="javascript:void(0);" onClick={() => removeTaskFromFirebase(record.key)}>
+            Delete
+          </a>
         </span>
       ),
     },
   ]
   renderingAuth = () => {
-    let buff = localStorage.getItem('myName')
-    if (buff == null) {
-      return <Auth style={{ marginLeft: 8 }} />
+    let name = localStorage.getItem('myName')
+    if (this.props.users[0] && this.props.users[0].id) {
+      let buff = this.props.users.find(item => item.id === name)
+      if (buff == null) {
+        return <Auth style={{ marginLeft: 8 }} />
+      }
     }
   }
   renderingAdd = () => {
-    let buff = localStorage.getItem('myName')
-    if (buff === null) {
-      return <div style={{ marginLeft: 8 }}>to add task u must login first</div>
-    } else {
-      return <AddButton onClick={addTaskToFirebase} />
+    let name = localStorage.getItem('myName')
+    if (this.props.users[0] && this.props.users[0].id) {
+      let buff = this.props.users.find(item => item.id === name)
+      if (buff === null) {
+        return <div style={{ marginLeft: 8 }}>to add task u must login first</div>
+      } else {
+        return <AddButton onClick={addTaskToFirebase} />
+      }
     }
   }
   render() {
+    console.log(this.props.Row)
     // TODO: Add edit/delete of plans
     return (
       <div>
@@ -85,6 +117,12 @@ class DataTable extends Component {
   }
 }
 
-const mapState = state => ({ tasks: state.tasks })
+const mapState = state => ({
+  // debugger
+
+  Row: state,
+  tasks: state.tasks,
+  users: state.Users,
+})
 
 export default connect(mapState)(DataTable)

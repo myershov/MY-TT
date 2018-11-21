@@ -8,7 +8,7 @@
   "scripts": {
     "pre-commit": "lint-staged",
     "start": "webpack-dev-server --hot --inline --module-bind 'css=style!css'",
-    "build-p": "webpack -p --env production-p"
+    "build": "webpack -p --env production-p"
   },
   "devDependencies": {
     "antd": "^3.6.6",

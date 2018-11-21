@@ -32,12 +32,14 @@ class AddButton extends Component {
         <Button style={{ top: -48 }} type="primary" onClick={() => this.setState({ visible: true })}>
           Add
         </Button>
-        <AddForm
-          wrappedComponentRef={this.saveFormRef}
-          visible={this.state.visible}
-          onCancel={() => this.setState({ visible: false })}
-          onCreate={this.handleCreate}
-        />
+        {(this.props.selectedRow || this.state.visible) && (
+          <AddForm
+            selected={this.props.selectedRow}
+            wrappedComponentRef={this.saveFormRef}
+            onCancel={() => this.setState({ visible: false })}
+            onCreate={this.handleCreate}
+          />
+        )}
       </div>
     )
   }
