@@ -8,7 +8,6 @@ import {
   watchTaskRemovedEvent
 } from "../../store/gameboard/actions"
 import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
 
 class DataTable extends Component {
   componentDidMount() {
@@ -56,4 +55,4 @@ class DataTable extends Component {
 
 const mapState = state => ({ tasks: state.tasks })
 
-export default withRouter(connect(mapState)(DataTable))
+export default connect(mapState)(DataTable)

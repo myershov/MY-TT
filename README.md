@@ -1,15 +1,18 @@
-# monopoly-react
+# my-tt
 
 ### Development
 ```
 npm i
 ```
 
-```
-npm run server (running with node)
-```
 or
 ```
-npm start (just front side)
+npm start
 ```
+
+build
+```
+npm run build-p
+```
+
 Open http://localhost:3000
