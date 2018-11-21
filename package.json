@@ -9,6 +9,7 @@
     "pre-commit": "lint-staged",
 	 "start": "webpack-dev-server --hot --inline --module-bind 'css=style!css'",
     "node-server": "nodemon ./server/index.js --exec babel-node --presets env,stage-0"
+	
   },
   "devDependencies": {
     "antd": "^3.6.6",
