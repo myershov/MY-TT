@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux'
 import { Input, InputNumber, Popconfirm, Form } from 'antd'
 import Auth from '../auth/auth'
+import Edit from './EditButton.jsx'
 
 class DataTable extends Component {
   componentDidMount() {
@@ -29,8 +30,10 @@ class DataTable extends Component {
   }
   hi = selected => {
     // debugger
-    // this.props.dispatch(selectRow(selected))
-    alert('not working yet')
+    this.props.dispatch(selectRow(selected))
+
+    // return <Edit />
+    //  alert('not working yet')
   }
   deleteRow = selected => {
     if (this.checkUser() == null) {
@@ -98,16 +101,15 @@ class DataTable extends Component {
       return <div style={{ marginLeft: 8 }}>to add task u must login first</div>
     } else {
       return <AddButton onClick={addTaskToFirebase} />
+      //  return <AddButton onClick={this.props.Row.selectRow} />
     }
   }
   render() {
-    console.log(this.props.users)
-    console.log(this.props.Row)
     // TODO: Add edit/delete of plans
     return (
       <div>
         {this.renderingAuth()}
-
+        <Edit onClick={addTaskToFirebase} />
         <Table columns={this.columns} dataSource={(this.props.tasks || []).map(i => i.task)} />
         {this.renderingAdd()}
       </div>

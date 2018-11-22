@@ -7,7 +7,16 @@ class AddForm extends Component {
   // and end of day status incluading totally hours worked
   state = {}
   render() {
-    const { editing } = this.state
+    let dailyPlan = this.props.selected && this.props.selected.plan
+    let futurePlan = ''
+    let Notes = ''
+
+    if (this.props.selected && this.props.selected.key) {
+      dailyPlan = this.props.selected.dailyPlan
+      futurePlan = this.props.selected.futurePlan
+      Notes = this.props.selected.notes
+    }
+
     const {
       form: { getFieldDecorator },
       onCancel,
@@ -18,26 +27,28 @@ class AddForm extends Component {
     return (
       <Modal onCancel={onCancel} visible onOk={onCreate} title="Daily Plan" okText="OK">
         <Form layout="vertical">
-          <Form.Item label="Date">
-            {getFieldDecorator('date', {
-              rules: [{ required: true, message: 'Must be filled!' }],
-              initialValue: moment(),
-            })(<DatePicker />)}
-          </Form.Item>
+          {this.props.selected == undefined && (
+            <Form.Item label="Date">
+              {getFieldDecorator('date', {
+                rules: [{ required: true, message: 'Must be filled!' }],
+                initialValue: moment(),
+              })(<DatePicker />)}
+            </Form.Item>
+          )}
           <Form.Item label="Daily plan">
             {getFieldDecorator('dailyPlan', {
               rules: [{ required: true, message: 'Must be filled!' }],
-              initialValue: this.props.selected && this.props.selected.plan,
+              initialValue: dailyPlan,
             })(<Input.TextArea />)}
           </Form.Item>
           <Form.Item label="Future plan">
             {getFieldDecorator('futurePlan', {
-              initialValue: '',
+              initialValue: futurePlan,
             })(<Input.TextArea />)}
           </Form.Item>
           <Form.Item label="Notes">
             {getFieldDecorator('notes', {
-              initialValue: '',
+              initialValue: Notes,
             })(<Input.TextArea />)}
           </Form.Item>
         </Form>
