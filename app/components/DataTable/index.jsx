@@ -13,15 +13,6 @@ import { connect } from 'react-redux'
 import { Input, InputNumber, Popconfirm, Form } from 'antd'
 import Auth from '../auth/auth'
 
-const FormItem = Form.Item
-//const EditableContext = React.createContext()
-
-const EditableRow = ({ form, index, ...props }) => (
-  <EditableContext.Provider value={form}>
-    <tr {...props} />
-  </EditableContext.Provider>
-)
-const EditableFormRow = Form.create()(EditableRow)
 class DataTable extends Component {
   componentDidMount() {
     this.props.dispatch(getTasksThunk())
@@ -40,6 +31,20 @@ class DataTable extends Component {
     // debugger
     // this.props.dispatch(selectRow(selected))
     alert('not working yet')
+  }
+  deleteRow = selected => {
+    if (this.checkUser() == null) {
+      alert('u must login first')
+    } else {
+      removeTaskFromFirebase(selected)
+    }
+  }
+  checkUser = () => {
+    let name = localStorage.getItem('myName')
+    if (this.props.users[0] && this.props.users[0].id) {
+      let buff = this.props.users.find(item => item.id === name)
+      return buff
+    }
   }
   columns = [
     {
@@ -76,7 +81,7 @@ class DataTable extends Component {
             Change
           </a>
           <Divider type="vertical" />
-          <a href="javascript:void(0);" onClick={() => removeTaskFromFirebase(record.key)}>
+          <a href="javascript:void(0);" onClick={() => this.deleteRow(record.key)}>
             Delete
           </a>
         </span>
@@ -84,23 +89,15 @@ class DataTable extends Component {
     },
   ]
   renderingAuth = () => {
-    let name = localStorage.getItem('myName')
-    if (this.props.users[0] && this.props.users[0].id) {
-      let buff = this.props.users.find(item => item.id === name)
-      if (buff == null) {
-        return <Auth style={{ marginLeft: 8 }} />
-      }
+    if (this.checkUser() == null) {
+      return <Auth style={{ marginLeft: 8 }} />
     }
   }
   renderingAdd = () => {
-    let name = localStorage.getItem('myName')
-    if (this.props.users[0] && this.props.users[0].id) {
-      let buff = this.props.users.find(item => item.id === name)
-      if (buff === null) {
-        return <div style={{ marginLeft: 8 }}>to add task u must login first</div>
-      } else {
-        return <AddButton onClick={addTaskToFirebase} />
-      }
+    if (this.checkUser() == null) {
+      return <div style={{ marginLeft: 8 }}>to add task u must login first</div>
+    } else {
+      return <AddButton onClick={addTaskToFirebase} />
     }
   }
   render() {

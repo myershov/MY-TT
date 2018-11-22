@@ -30,7 +30,6 @@ class Auth extends Component {
   //     this.setState({ [name]: event.target.value })
   //   }
   login = e => {
-    e.preventDefault()
     let name
     let pass
     let buff
@@ -48,6 +47,7 @@ class Auth extends Component {
         localStorage.setItem('myName', name)
       }
     })
+    window.location.reload()
   }
 
   create = () => {

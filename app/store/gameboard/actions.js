@@ -9,7 +9,6 @@ export const getTasks = tasks => ({ type: types.GET_TASKS, tasks })
 export const addTask = task => ({ type: types.ADD_TASK, task })
 export const removeTask = task => ({ type: types.REMOVE_TASK, task })
 export const addUser = user => ({ type: types.ADD_USER, user })
-export const getUsers = users => ({ type: types.GET_USERS, users })
 export const selectRow = row => ({ type: types.SELECTED_ROW, row })
 /**
  * LISTENERS
@@ -54,10 +53,10 @@ export function getUsersThunk() {
       .once('value', snap => {
         snap.forEach(data => {
           let user = data.val()
-          users.push(user)
+          user && users.push(user)
         })
       })
-      .then(() => dispatch(getUsers(users)))
+      .then(() => dispatch({ type: types.GET_USERS, users }))
   }
 }
 
