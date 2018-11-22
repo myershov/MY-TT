@@ -28,13 +28,7 @@ class DataTable extends Component {
     }
     return <Input />
   }
-  hi = selected => {
-    // debugger
-    this.props.dispatch(selectRow(selected))
 
-    // return <Edit />
-    //  alert('not working yet')
-  }
   deleteRow = selected => {
     if (this.checkUser() == null) {
       alert('u must login first')
@@ -43,8 +37,8 @@ class DataTable extends Component {
     }
   }
   checkUser = () => {
-    let name = localStorage.getItem('myName')
     if (this.props.users[0] && this.props.users[0].id) {
+      let name = localStorage.getItem('myName')
       let buff = this.props.users.find(item => item.id === name)
       return buff
     }
@@ -76,11 +70,16 @@ class DataTable extends Component {
       key: 'notes',
     },
     {
+      title: 'Tottaly worked',
+      dataIndex: 'TottalyWorked',
+      key: 'TottalyWorked',
+    },
+    {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
         <span>
-          <a href="javascript:void(0);" onClick={() => this.hi(record)}>
+          <a href="javascript:void(0);" onClick={() => this.props.dispatch(selectRow(record))}>
             Change
           </a>
           <Divider type="vertical" />
@@ -101,7 +100,6 @@ class DataTable extends Component {
       return <div style={{ marginLeft: 8 }}>to add task u must login first</div>
     } else {
       return <AddButton onClick={addTaskToFirebase} />
-      //  return <AddButton onClick={this.props.Row.selectRow} />
     }
   }
   render() {

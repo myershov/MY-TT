@@ -11,6 +11,11 @@ class Edit extends Component {
     const form = this.formRef.props.form
     form.validateFields((err, values) => {
       if (err) return
+      if (values.switch == true) {
+        values.dailyPlan = 'End of Day'
+        values.TottalyWorked = values.TottalyWorked + ' minutes'
+      }
+
       values.key = this.props.row.key
       values.username = this.props.row.username
       values.date = this.props.row.date
@@ -29,6 +34,7 @@ class Edit extends Component {
   }
 
   render() {
+    console.log(this.props.row)
     return (
       <div>
         {this.props.row.key && this.state.visible && (

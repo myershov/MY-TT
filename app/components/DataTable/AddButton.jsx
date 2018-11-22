@@ -12,9 +12,14 @@ class AddButton extends Component {
     const form = this.formRef.props.form
     form.validateFields((err, values) => {
       if (err) return
+      if (values.switch == true) {
+        values.dailyPlan = 'End of Day'
+        values.TottalyWorked = values.TottalyWorked + ' minutes'
+      }
       values.key = uuid()
       values.username = localStorage.getItem('myName')
       values.date = values.date.format()
+
       this.props.onClick(values)
       form.resetFields()
       this.setState({ visible: false })
