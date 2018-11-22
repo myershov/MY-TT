@@ -32,15 +32,15 @@ class Auth extends Component {
   login = e => {
     let name
     let pass
-    let buff
+
     this.props.form.validateFields((err, values) => {
       //  console.log('Received values of form: ', values)
       ;(name = values.userName.replace(/\s/g, '')), (pass = values.password.replace(/\s/g, ''))
-      buff = this.props.tasks.Users.find(item => item.id === name)
-      // console.log(buff)
+      let buff = this.props.tasks.Users.find(item => item.id === name)
+
       if (buff === undefined) {
         alert('such user not exist  ')
-      } else if (buff && buff.User.pass !== pass) {
+      } else if (buff && buff.User.password !== pass) {
         alert('incorect pass ')
       } else {
         alert('I greet U  ' + name)
@@ -74,7 +74,6 @@ class Auth extends Component {
   }
 
   render() {
-    console.log(this.props.tasks)
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
     // Only show error after a field is touched.
     const userNameError = isFieldTouched('userName') && getFieldError('userName')
