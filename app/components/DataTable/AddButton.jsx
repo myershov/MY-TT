@@ -14,7 +14,6 @@ class AddButton extends Component {
       if (err) return
       if (values.switch == true) {
         values.dailyPlan = 'End of Day'
-        values.TottalyWorked = values.TottalyWorked + ' minutes'
       }
       values.key = uuid()
       values.username = localStorage.getItem('myName')

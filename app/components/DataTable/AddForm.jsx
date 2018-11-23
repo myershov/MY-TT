@@ -7,16 +7,17 @@ class AddForm extends Component {
   // and end of day status incluading totally hours worked
   state = { switch: false }
   switch = checked => {
-    this.setState({ switch: !this.state.switch }, () => console.log('switch', this.state))
+    this.setState({ switch: !this.state.switch })
   }
-  endData = () => {
-    if (this.props.selected && this.props.selected.date) {
-      return moment().diff(moment(this.props.selected.date), 'minutes')
-    } else {
-      return '0'
-    }
-  }
+  // endData = () => {
+  //   if (this.props.selected && this.props.selected.date) {
+  //     return moment().diff(moment(this.props.selected.date), 'minutes')
+  //   } else {
+  //     return '0'
+  //   }
+  // }
   render() {
+    console.log(this.props.selected)
     let dailyPlan = this.props.selected && this.props.selected.plan
     let futurePlan = ''
     let Notes = ''
@@ -50,6 +51,18 @@ class AddForm extends Component {
               rules: [{ required: true, message: 'Must be filled!' }],
               initialValue: dailyPlan,
             })(<Input.TextArea />)}
+            <Form.Item label="Switch">
+              {getFieldDecorator('switch', { initialValue: this.state.switch })(
+                <Switch onChange={() => this.switch()} />
+              )}
+            </Form.Item>
+            {this.state.switch === true && (
+              <Form.Item label="Totally worked">
+                {getFieldDecorator('TottalyWorked', {
+                  initialValue: '',
+                })(<Input.TextArea />)}
+              </Form.Item>
+            )}
           </Form.Item>
           <Form.Item label="Future plan">
             {getFieldDecorator('futurePlan', {
@@ -61,27 +74,6 @@ class AddForm extends Component {
               initialValue: Notes,
             })(<Input.TextArea />)}
           </Form.Item>
-
-          <Form.Item label="Switch">
-            {getFieldDecorator('switch', { initialValue: this.state.switch })(
-              <Switch onChange={() => this.switch()} />
-            )}
-          </Form.Item>
-
-          {this.state.switch === true && (
-            <Form.Item label="Tottaly worked">
-              {getFieldDecorator('TottalyWorked', {
-                initialValue: this.endData(),
-              })(
-                <Card style={{ width: 300 }}>
-                  <p>
-                    {this.endData()}
-                    {' minutes'}
-                  </p>
-                </Card>
-              )}
-            </Form.Item>
-          )}
         </Form>
       </Modal>
     )

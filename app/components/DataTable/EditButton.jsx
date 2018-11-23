@@ -6,15 +6,15 @@ class Edit extends Component {
   state = {
     visible: true,
   }
- 
-  
+
   handleCreate = () => {
     const form = this.formRef.props.form
     form.validateFields((err, values) => {
       if (err) return
       if (values.switch == true) {
         values.dailyPlan = 'End of Day'
-        values.TottalyWorked = values.TottalyWorked + ' minutes'
+      } else {
+        values.TottalyWorked = ''
       }
 
       values.key = this.props.row.key
@@ -35,7 +35,6 @@ class Edit extends Component {
   }
 
   render() {
-   
     return (
       <div>
         {/* this.checkUser() !== null && */}
@@ -54,7 +53,7 @@ class Edit extends Component {
 
 const mapState = state => ({
   // debugger
- 
+
   row: state.selectedRow,
 })
 
