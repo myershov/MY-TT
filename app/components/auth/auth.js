@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { getUsersThunk, watchUserAddedEvent } from '../../store/gameboard/actions'
 import { Form, Icon, Input, Button } from 'antd'
 import { withRouter } from 'react-router-dom'
-
+import './style.css'
 const FormItem = Form.Item
 
 function hasErrors(fieldsError) {
@@ -81,49 +81,54 @@ class Auth extends Component {
     const passwordError = isFieldTouched('password') && getFieldError('password')
     return (
       <div>
-        <Form layout="inline" onSubmit={this.clearState}>
-          <FormItem validateStatus={userNameError ? 'error' : ''} help={userNameError || ''}>
-            {getFieldDecorator('userName', {
-              rules: [{ required: true, message: 'Please input your username!' }],
-            })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />)}
-          </FormItem>
-          <FormItem validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Please input your Password!' }],
-            })(
-              <Input
-                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                type="password"
-                placeholder="Password"
-              />
-            )}
-          </FormItem>
+        <Form className="login-form" layout="inline" onSubmit={this.clearState}>
+          <div className="login-div">
+            <FormItem validateStatus={userNameError ? 'error' : ''} help={userNameError || ''}>
+              {getFieldDecorator('userName', {
+                rules: [{ required: true, message: 'Please input your username!' }],
+              })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />)}
+            </FormItem>
+            <FormItem validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
+              {getFieldDecorator('password', {
+                rules: [{ required: true, message: 'Please input your Password!' }],
+              })(
+                <Input
+                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  type="password"
+                  placeholder="Password"
+                />
+              )}
+            </FormItem>
 
-          <FormItem>
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={hasErrors(getFieldsError())}
-              onClick={e => {
-                this.login(e)
-              }}
-            >
-              {' '}
-              loggin
-            </Button>
-            <Button
-              style={{ marginLeft: 8 }}
-              type="primary"
-              htmlType="submit"
-              disabled={hasErrors(getFieldsError())}
-              onClick={() => {
-                this.create()
-              }}
-            >
-              {' '}
-              create new
-            </Button>
-          </FormItem>
+            <FormItem>
+              <Button
+                className="login-form-button"
+                type="primary"
+                htmlType="submit"
+                disabled={hasErrors(getFieldsError())}
+                onClick={e => {
+                  this.login(e)
+                }}
+              >
+                {' '}
+                loggin
+              </Button>
+              <div />
+              <Button
+                className="login-form-button"
+                // style={{ marginLeft: 8 }}
+                type="primary"
+                htmlType="submit"
+                disabled={hasErrors(getFieldsError())}
+                onClick={() => {
+                  this.create()
+                }}
+              >
+                {' '}
+                register new
+              </Button>
+            </FormItem>
+          </div>
         </Form>
       </div>
     )

@@ -29,21 +29,6 @@ class DataTable extends Component {
     return <Input />
   }
 
-changeRow=(record)=>{
-  if (this.checkUser() == null) {
-    alert('u must login first')
-  }else{
-    this.props.dispatch(selectRow(record))
-  }
-}
-
-  deleteRow = selected => {
-    if (this.checkUser() == null) {
-      alert('u must login first')
-    } else {
-      removeTaskFromFirebase(selected)
-    }
-  }
   checkUser = () => {
     if (this.props.users[0] && this.props.users[0].id) {
       let name = localStorage.getItem('myName')
@@ -87,39 +72,33 @@ changeRow=(record)=>{
       key: 'action',
       render: (text, record) => (
         <span>
-          <a href="javascript:void(0);" onClick={() => this.changeRow(record)}>
+          <a href="javascript:void(0);" onClick={() => this.props.dispatch(selectRow(record))}>
             Change
           </a>
           <Divider type="vertical" />
-          <a href="javascript:void(0);" onClick={() => this.deleteRow(record.key)}>
+          <a href="javascript:void(0);" onClick={() => removeTaskFromFirebase(record.key)}>
             Delete
           </a>
         </span>
       ),
     },
   ]
-  renderingAuth = () => {
+  renderContent = () => {
     if (this.checkUser() == null) {
       return <Auth style={{ marginLeft: 8 }} />
-    }
-  }
-  renderingAdd = () => {
-    if (this.checkUser() == null) {
-      return <div style={{ marginLeft: 8 }}>to add task u must login first</div>
     } else {
-      return <AddButton onClick={addTaskToFirebase} />
+      return (
+        <div>
+          <Edit onClick={addTaskToFirebase} />
+          <Table columns={this.columns} dataSource={(this.props.tasks || []).map(i => i.task)} />
+          <AddButton onClick={addTaskToFirebase} />
+        </div>
+      )
     }
   }
   render() {
     // TODO: Add edit/delete of plans
-    return (
-      <div>
-        {this.renderingAuth()}
-        <Edit onClick={addTaskToFirebase} />
-        <Table columns={this.columns} dataSource={(this.props.tasks || []).map(i => i.task)} />
-        {this.renderingAdd()}
-      </div>
-    )
+    return <div>{this.renderContent()}</div>
   }
 }
 
