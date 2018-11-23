@@ -29,6 +29,14 @@ class DataTable extends Component {
     return <Input />
   }
 
+changeRow=(record)=>{
+  if (this.checkUser() == null) {
+    alert('u must login first')
+  }else{
+    this.props.dispatch(selectRow(record))
+  }
+}
+
   deleteRow = selected => {
     if (this.checkUser() == null) {
       alert('u must login first')
@@ -79,7 +87,7 @@ class DataTable extends Component {
       key: 'action',
       render: (text, record) => (
         <span>
-          <a href="javascript:void(0);" onClick={() => this.props.dispatch(selectRow(record))}>
+          <a href="javascript:void(0);" onClick={() => this.changeRow(record)}>
             Change
           </a>
           <Divider type="vertical" />

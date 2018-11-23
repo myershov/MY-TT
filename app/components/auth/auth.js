@@ -64,6 +64,7 @@ class Auth extends Component {
         if (!!values.userName && !!values.password) {
           all = { userName: name, password: pass }
           addUserToFirebase(all)
+          alert('now u can loggin as ' + name)
         } else {
           alert('u must put smth in login and pass fields')
         }

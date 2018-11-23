@@ -6,13 +6,8 @@ class Edit extends Component {
   state = {
     visible: true,
   }
-  checkUser = () => {
-    if (this.props.users[0] && this.props.users[0].id) {
-      let name = localStorage.getItem('myName')
-      let buff = this.props.users.find(item => item.id === name)
-      return buff
-    }
-  }
+ 
+  
   handleCreate = () => {
     const form = this.formRef.props.form
     form.validateFields((err, values) => {
@@ -40,10 +35,11 @@ class Edit extends Component {
   }
 
   render() {
-    //console.log(this.props.row)
+   
     return (
       <div>
-        {this.checkUser() == null && this.props.row.key && (
+        {/* this.checkUser() !== null && */}
+        {this.props.row.key && (
           <AddForm
             selected={this.props.row}
             wrappedComponentRef={this.saveFormRef}
@@ -58,7 +54,7 @@ class Edit extends Component {
 
 const mapState = state => ({
   // debugger
-  users: state.Users,
+ 
   row: state.selectedRow,
 })
 
